@@ -1,7 +1,8 @@
-const supabase = window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_ANON_KEY
-);
+import { db } from "./config.js";
+import {
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -17,21 +18,38 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const { data, error } = await supabase
-            .from("volunteers")
-            .select("*")
-            .eq("volunteer_id", volunteer_id)
-            .eq("password", password)
-            .single();
+        try {
 
-        if (error || !data) {
-            alert("رقم التطوع أو الرقم السري غير صحيح");
-            return;
+            const snapshot = await getDocs(collection(db, "volunteers"));
+
+            let volunteer = null;
+
+            snapshot.forEach((doc) => {
+
+                const data = doc.data();
+
+                if (
+                    data.volunteer_id === volunteer_id &&
+                    data.password === password
+                ) {
+                    volunteer = data;
+                }
+
+            });
+
+            if (!volunteer) {
+                alert("رقم التطوع أو الرقم السري غير صحيح");
+                return;
+            }
+
+            localStorage.setItem("volunteer", JSON.stringify(volunteer));
+
+            window.location.href = "profile.html";
+
+        } catch (err) {
+            console.error(err);
+            alert("حدث خطأ أثناء تسجيل الدخول");
         }
-
-        localStorage.setItem("volunteer", JSON.stringify(data));
-
-        window.location.href = "profile.html";
 
     });
 

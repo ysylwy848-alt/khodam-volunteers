@@ -1,3 +1,18 @@
-const SUPABASE_URL = "https://ngnhomvtzcnkuooelhqz.supabase.co";
+// Firebase
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5nbmhvbXZ0emNua3Vvb2VsaHF6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ3NjYxNjEsImV4cCI6Mj
+const firebaseConfig = {
+  apiKey: "AIzaSyAIPtPhuba3jRfP6bKDXD8BUF5w9YmW5B4",
+  authDomain: "khodam-volunteers.firebaseapp.com",
+  projectId: "khodam-volunteers",
+  storageBucket: "khodam-volunteers.firebasestorage.app",
+  messagingSenderId: "82704174117",
+  appId: "1:82704174117:web:46a870c83e12e1e2c943cc",
+  measurementId: "G-9G12FST104"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+export { db };
